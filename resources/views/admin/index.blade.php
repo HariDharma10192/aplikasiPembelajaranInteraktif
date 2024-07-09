@@ -22,19 +22,24 @@
             transform: translateX(-50px);
             transition: opacity 1s ease, transform 1s ease;
         }
+
+    .sidebar-btn i, .logout-btn i {
+            margin-right: 10px;
+    }
+
 </style>
 <p class="p-2 text-center bg-light  border-2 border-secondary w-25 text-capitalize ">{{auth() -> user() -> name}}</p>
     <div class="row gap-5 ">
         <div class="col-12 col-md-4 col-lg-2 ">
                   {{-- Side Bar --}}
-                  <div class="d-flex flex-column gap-2 w-100 px-5 px-md-0">
-                    <div><a href="/admin/users" class="btn btn-warning w-100 text-center sidebar-btn">Kelola Users</a></div>
-                    <div><a href="/admin/materi" class="btn btn-success w-100 text-center sidebar-btn">Kelola Materi</a></div>
-                    <div><a href="/admin/quis" class="btn btn-success w-100 text-center sidebar-btn">kelola Quis</a></div>
-                    <div><a href="/admin/quis/evaluasi" class="btn btn-success w-100 text-center sidebar-btn">Kelola Evaluasi</a></div>
-                    <div><a href="/admin/petunjuk" class="btn btn-success w-100 text-center sidebar-btn">Petunjuk</a></div>
-                    <div><a href="/admin/laporan" class="btn btn-success w-100 text-center sidebar-btn">Laporan</a></div>
-                    <div><a href="/sign-out" class="btn btn-danger w-100 text-center mt-5 logout-btn">Log Out</a></div>
+                  <div class="d-flex flex-column gap-1 w-100">
+                    <div><a href="/admin/users" class="btn btn-warning w-100 text-center sidebar-btn"><i class="fas fa-users"></i>Kelola Users</a></div>
+                    <div><a href="/admin/materi" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-book"></i>Kelola Materi</a></div>
+                    <div><a href="/admin/quis" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-question-circle"></i>kelola Quis</a></div>
+                    <div><a href="/admin/quis/evaluasi" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-chart-bar"></i>Kelola Evaluasi</a></div>
+                    <div><a href="/admin/petunjuk" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-info-circle"></i>Petunjuk</a></div>
+                    <div><a href="/admin/laporan" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-file-alt"></i>Laporan</a></div>
+                    <div><a href="/sign-out" class="btn btn-danger w-100 text-center mt-5 logout-btn"><i class="fas fa-sign-out-alt"></i>Log Out</a></div>
                 </div>
             </div>
         <div class="col-7 d-flex justify-content-center ">
@@ -74,4 +79,8 @@
             }, 1000); // Start after other buttons have animated
         });
     </script>
+<<<<<<< HEAD
     @endsection
+=======
+    @endsection
+>>>>>>> collab

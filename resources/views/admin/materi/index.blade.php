@@ -21,6 +21,9 @@
                 @if(session()->has('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
+
+               <!-- Wrapper for table to make it scrollable on mobile -->
+               <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
