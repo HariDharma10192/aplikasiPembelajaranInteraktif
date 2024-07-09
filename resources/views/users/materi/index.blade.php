@@ -1,19 +1,6 @@
 @extends('u_components.layout')
 
 @section('content')
-
-<style>
-    .animated-item {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .animated-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-<h1>hello world</h1>
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
@@ -30,11 +17,8 @@
                 
                 <ul class="list-group">
                     @foreach($materis as $materi)
-                        <li class="list-group-item p-0 mb-2 border-0">
-                            <a href="#" class="materi-link btn btn-outline-primary w-100 text-start d-flex align-items-center animated-item" data-id="{{ $materi->id }}">
-                                <i class="fas fa-file-alt me-2"></i>
-                                <span>{{ $materi->judul }}</span>
-                            </a>
+                        <li class="list-group-item">
+                            <a href="#" class="materi-link" data-id="{{ $materi->id }}">{{ $materi->judul }}</a>
                         </li>
                     @endforeach
                 </ul>
@@ -87,22 +71,8 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('.animated-item').each(function(index) {
-                var $item = $(this);
-                setTimeout(function() {
-                    $item.css({
-                        'opacity': 1,
-                        'transform': 'translateY(0)'
-                    });
-                }, index * 100);
-            });
-        });
-        </script>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
             var materiLinks = document.querySelectorAll('.materi-link');
             materiLinks.forEach(function (link) {
