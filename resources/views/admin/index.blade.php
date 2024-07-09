@@ -79,8 +79,5 @@
             }, 1000); // Start after other buttons have animated
         });
     </script>
-<<<<<<< HEAD
+
     @endsection
-=======
-    @endsection
->>>>>>> collab
