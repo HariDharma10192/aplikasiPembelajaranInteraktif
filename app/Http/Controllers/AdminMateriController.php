@@ -6,6 +6,7 @@ use App\Models\Materi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class AdminMateriController extends Controller
 {
@@ -17,22 +18,37 @@ class AdminMateriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'materi1' => 'required|file|mimes:pdf|max:2048',
-            'materi2' => 'required|file|mimes:pdf|max:2048',
+            'judul' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('materi', 'judul'),
+            ],
+            'materi1' => 'required_without:materi2|file|mimes:pdf|max:5120',
+            'materi2' => 'required_without:materi1|file|mimes:pdf|max:5120',
+        ], [
+            'judul.unique' => 'Judul materi sudah ada. Silakan gunakan judul lain.',
+            'materi1.required_without' => 'Anda harus mengunggah setidaknya satu materi.',
+            'materi2.required_without' => 'Anda harus mengunggah setidaknya satu materi.',
+            'materi1.max' => 'Ukuran file Materi 1 tidak boleh lebih dari 5MB.',
+            'materi2.max' => 'Ukuran file Materi 2 tidak boleh lebih dari 5MB.',
         ]);
 
-        // Handle file upload for materi1
-        $materi1 = $request->file('materi1');
-        $materi1Name = Str::uuid() . '_' . $materi1->getClientOriginalName();
-        $materi1Path = $materi1->storeAs('materi', $materi1Name, 'public');
+        $materi1Path = null;
+        $materi2Path = null;
 
-        // Handle file upload for materi2
-        $materi2 = $request->file('materi2');
-        $materi2Name = Str::uuid() . '_' . $materi2->getClientOriginalName();
-        $materi2Path = $materi2->storeAs('materi', $materi2Name, 'public');
+        if ($request->hasFile('materi1')) {
+            $materi1 = $request->file('materi1');
+            $materi1Name = Str::uuid() . '_' . $materi1->getClientOriginalName();
+            $materi1Path = $materi1->storeAs('materi', $materi1Name, 'public');
+        }
 
-        // Create new Materi
+        if ($request->hasFile('materi2')) {
+            $materi2 = $request->file('materi2');
+            $materi2Name = Str::uuid() . '_' . $materi2->getClientOriginalName();
+            $materi2Path = $materi2->storeAs('materi', $materi2Name, 'public');
+        }
+
         Materi::create([
             'judul' => $request->judul,
             'materi1' => $materi1Path,
@@ -41,9 +57,16 @@ class AdminMateriController extends Controller
 
         return back()->with('success', 'Materi berhasil diunggah.');
     }
-    public function show()
+    public function show(Request $request)
     {
-        $materis = Materi::withCount('quis')->get();
+        $query = Materi::withCount('quis');
+
+        if ($request->has('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        $materis = $query->orderBy('created_at', 'desc')->paginate(10); // 10 adalah jumlah item per halaman
+
         return view('admin.materi.index', compact('materis'));
     }
 

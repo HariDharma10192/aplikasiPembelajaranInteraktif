@@ -3,9 +3,11 @@
 @section('content')
     <div class="container mt-5">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h1 class="mb-0">Daftar Kuis</h1>
-                <a href="/admin/quis/create" class="btn btn-sm btn-success">Tambah Kuis Baru</a>
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                <h1 class="mb-2 mb-md-0">Daftar Kuis</h1>
+                <a href="/admin/quis/create" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Tambah Kuis Baru
+                </a>
             </div>
 
             <div class="card-body">
@@ -16,36 +18,50 @@
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
-                <table class="table table-bordered table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Judul Materi</th>
-                            <th>Pertanyaan</th>
-                            <th>Jawaban Benar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($materis as $materi)
-                            <tr class="materi-header" data-toggle="materi-{{ $materi->id }}">
-                                <td colspan="3"><strong>{{ $materi->judul }}</strong></td>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Judul Materi</th>
+                                <th>No.</th>
+                                <th>Pertanyaan</th>
+                                <th>Jawaban Benar</th>
                             </tr>
-                            @foreach($materi->quis as $quis)
-                                <tr class="materi-content materi-{{ $materi->id }}" style="display: none;">
-                                    <td></td>
-                                    <td>
-                                        <button class="btn btn-link" onclick="showQuisModal('{{ $quis->question }}', '{{ $quis->option_a }}', '{{ $quis->option_b }}', '{{ $quis->option_c }}', '{{ $quis->option_d }}', '{{ $quis->correct_answer }}')">
-                                            {{ \Illuminate\Support\Str::words($quis->question, 15) }}
-                                        </button>
+                        </thead>
+                        <tbody>
+                            @foreach($materis as $materi)
+                                <tr class="materi-header" data-toggle="materi-{{ $materi->id }}">
+                                    <td colspan="5">
+                                        <strong>
+                                            <i class="fas fa-eye"></i> {{ $materi->judul }}
+                                        </strong>
                                     </td>
-                                    <td>{{ \Illuminate\Support\Str::words($quis->correct_answer, 15) }}</td>
                                 </tr>
+                                @foreach($materi->quis as $index => $quis)
+                                    <tr class="materi-content materi-{{ $materi->id }}" style="display: none;">
+                                        <td></td>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>
+                                            <button class="btn text-success btn-link" onclick="showQuisModal('{{ $quis->question }}', '{{ $quis->option_a }}', '{{ $quis->option_b }}', '{{ $quis->option_c }}', '{{ $quis->option_d }}', '{{ $quis->correct_answer }}')">
+                                                {{ \Illuminate\Support\Str::words($quis->question, 15) }}
+                                            </button>
+                                        </td>
+                                        <td>{{ \Illuminate\Support\Str::words($quis->correct_answer, 15) }}</td>
+                                        
+                                    </tr>
+                                @endforeach
                             @endforeach
-                        @endforeach
-                    </tbody>
-                </table>
-                <a href="/" class="btn btn-sm btn-secondary mb-3">Kembali</a>
-                
-                <!-- Tambahkan tombol menuju ke halaman pembuatan kuis -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
+                    <div class="mb-2 mb-md-0">
+                        <a href="/" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

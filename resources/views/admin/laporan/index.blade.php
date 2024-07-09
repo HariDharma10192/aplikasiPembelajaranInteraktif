@@ -15,7 +15,7 @@
                                 <option value="{{ $materi->id }}">{{ $materi->judul }}</option>
                             @endforeach
                         </select>
-                        <button class="btn btn-primary" type="submit">Lihat Laporan</button>
+                        <button class="btn btn-success" type="submit">Lihat Laporan</button>
                     </div>
                 </form>
                 <div id="laporanDetailContainer" style="display: none;">

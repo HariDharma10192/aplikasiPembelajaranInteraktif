@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->text('materi1');
-            $table->text('materi2');
+            $table->text('materi2')->nullable(); // Mengizinkan nilai null untuk kolom materi2
             $table->timestamps();
         });
     }

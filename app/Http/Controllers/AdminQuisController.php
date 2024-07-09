@@ -54,17 +54,21 @@ class AdminQuisController extends Controller
         $search = $request->input('search');
         $materis = Materi::when($search, function ($query, $search) {
             return $query->where('judul', 'like', "%{$search}%");
-        })->get();
+        })->paginate(10); // Menggunakan paginate() untuk mengembalikan hasil yang ter-paginate
 
         return view('admin.quis.evaluasi', compact('materis', 'search'));
     }
-
     public function showEvaluasi($materi_id)
     {
-        $materi = Materi::with('userJawabQuis.user')->find($materi_id);
+        $materi = Materi::find($materi_id);
         if (!$materi) {
             return redirect()->route('admin.quis.evaluasi')->with('error', 'Materi tidak ditemukan.');
         }
-        return view('admin.quis.evaluasi_detail', compact('materi'));
+
+        $userJawabQuis = UserJawabQuis::with('user')
+            ->where('materi_id', $materi_id)
+            ->paginate(10);
+
+        return view('admin.quis.evaluasi_detail', compact('materi', 'userJawabQuis'));
     }
 }

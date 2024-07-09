@@ -28,7 +28,7 @@
                 @foreach($materis as $materi)
                     @if($materi->materi2) <!-- Tampilkan hanya jika materi 2 ada -->
                         <li class="list-group-item p-0 mb-2 border-0">
-                            <a href="#" class="materi2-link btn btn-outline-primary w-100 text-start d-flex align-items-center animated-item" data-id="{{ $materi->id }}">
+                            <a href="#" class="materi2-link btn btn-outline-success w-100 text-start d-flex align-items-center animated-item" data-id="{{ $materi->id }}">
                                 <i class="fas fa-file-alt me-2"></i>
                                 <span>{{ $materi->judul }}</span>
                             </a>

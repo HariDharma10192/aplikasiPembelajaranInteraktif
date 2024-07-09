@@ -7,10 +7,24 @@ use App\Models\Materi;
 
 use App\Models\Quis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserQuisController extends Controller
 {
     // Menampilkan daftar materi dengan kuis
+    // public function index(Request $request)
+    // {
+    //     $query = Materi::query();
+
+    //     if ($request->has('search')) {
+    //         $query->where('judul', 'like', '%' . $request->search . '%');
+    //     }
+
+    //     $materis = $query->orderBy('created_at', 'desc')->paginate(5);
+
+    //     return view('users.quis.index', compact('materis'));
+    // }
     public function index(Request $request)
     {
         $query = Materi::query();
@@ -21,8 +35,17 @@ class UserQuisController extends Controller
 
         $materis = $query->orderBy('created_at', 'desc')->paginate(5);
 
-        return view('users.quis.index', compact('materis'));
+        // Get the current user's ID
+        $userId = Auth::id();
+
+        // Fetch the user's completed quizzes
+        $completedQuizzes = UserJawabQuis::where('user_id', $userId)
+            ->pluck('materi_id')
+            ->toArray();
+
+        return view('users.quis.index', compact('materis', 'completedQuizzes'));
     }
+
 
     // Menampilkan pertanyaan kuis berdasarkan materi
     public function show($materi_id)
