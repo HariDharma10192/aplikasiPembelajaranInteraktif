@@ -30,7 +30,7 @@
     <div class="row gap-5">
         <div class="col-12 col-md-4 col-lg-2">
             <div class="d-flex flex-column gap-1 w-100">
-                <div><a href="/kompetensi" class="btn btn-warning w-100 text-center sidebar-btn"><i class="fas fa-chart-line"></i> Kompetensi</a></div>
+                <div><a href="/users/laporan" class="btn btn-warning w-100 text-center sidebar-btn"><i class="fas fa-chart-line"></i> Kompetensi</a></div>
                 <div><a href="/users/materi" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-book"></i> Materi 1</a></div>
                 <div><a href="users/materi2" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-book-open"></i> Materi 2</a></div>
                 <div><a href="/users/quis" class="btn btn-success w-100 text-center sidebar-btn"><i class="fas fa-tasks"></i> Evaluasi</a></div>
