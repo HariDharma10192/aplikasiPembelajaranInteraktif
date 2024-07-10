@@ -86,7 +86,7 @@ class UserQuisController extends Controller
             'correct_answers' => $correct_answers,
         ]);
 
-        return redirect()->route('users.materi.index')->with('success', 'Kuis berhasil disubmit!');
+        return redirect()->route('users.quis.index')->with('success', 'Kuis berhasil disubmit!');
     }
     // Menampilkan halaman laporan
     public function laporan()

@@ -1,45 +1,21 @@
-<!-- resources/views/admin/users/index.blade.php -->
 @extends('a_components.layout')
 
 @section('content')
-<style>
-    .action-buttons {
-        display: flex;
-        gap: 5px;
-        justify-content: flex-start;
-    }
-    .action-buttons .btn {
-        flex: 0 1 auto;
-        min-width: 60px;
-    }
-    .action-buttons form {
-        flex: 0 1 auto;
-        margin: 0;
-    }
-    @media (max-width: 768px) {
-        .action-buttons {
-            flex-direction: column;
-        }
-        .action-buttons .btn,
-        .action-buttons form {
-            width: 100%;
-        }
-    }
-</style>
+
 
 <div class="container-fluid mt-5">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-            <h1 class="mb-2 mb-md-0">Daftar Pengguna</h1>
+            <h1 class="mb-2 mb-md-0">Daftar Teman Belajar</h1>
             <a href="{{ route('admin.users.create') }}" class="btn btn-success">
-                <i class="fas fa-user-plus"></i> Tambah Pengguna
+                <i class="fas fa-user-plus"></i> Tambah Teman Baru
             </a>
         </div>
         <div class="card-body">
             <!-- Form pencarian -->
             <form method="GET" action="{{ route('admin.users.index') }}" class="mb-3">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan nama atau email" value="{{ request()->search }}">
+                    <input type="text" name="search" class="form-control" placeholder="Cari nama teman atau email" value="{{ request()->search }}">
                     <button class="btn btn-success" type="submit">
                         <i class="fas fa-search"></i> Cari
                     </button>
@@ -57,9 +33,9 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Nama</th>
+                            <th>Nama Teman</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th>Peran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -68,13 +44,13 @@
                             <tr>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->role_id == 1 ? 'Admin' : 'User' }}</td>
+                                <td>{{ $user->role_id == 1 ? 'Guru' : 'Murid' }}</td>
                                 <td>
                                     <div class="action-buttons">
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-success btn-sm">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i> Ubah
                                         </a>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah kamu yakin ingin menghapus teman ini?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -99,7 +75,6 @@
                     {{ $users->links() }}
                 </div>
             </div>
-
         </div>
     </div>
 </div>

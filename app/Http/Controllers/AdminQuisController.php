@@ -17,15 +17,18 @@ class AdminQuisController extends Controller
         return view('admin.quis.index', compact('materis'));
     }
 
+
+
     public function create()
     {
-        $materis = Materi::all(); // Mengambil semua materi untuk ditampilkan dalam dropdown
-        return view('admin.quis.create', compact('materis'));
+        $materis = Materi::all();
+        $questionCount = old('question_count', 1);
+        return view('admin.quis.create', compact('materis', 'questionCount'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'materi_id' => 'required|exists:materi,id',
             'questions.*.question' => 'required|string|max:255',
             'questions.*.option_a' => 'required|string|max:255',
@@ -47,7 +50,9 @@ class AdminQuisController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Kuis berhasil ditambahkan.');
+        return redirect()->route('admin.quis.index')
+            ->withInput($request->all())
+            ->with('success', 'Kuis berhasil ditambahkan.');
     }
     public function evaluasi(Request $request)
     {

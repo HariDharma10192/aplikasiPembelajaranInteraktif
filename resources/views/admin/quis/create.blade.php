@@ -17,45 +17,49 @@
                         <select name="materi_id" id="materi_id" class="form-control" required>
                             <option value="" disabled selected>==== Pilih Materi Terkait ====</option>
                             @foreach($materis as $materi)
-                                <option value="{{ $materi->id }}">{{ $materi->judul }}</option>
+                                <option value="{{ $materi->id }}" {{ old('materi_id') == $materi->id ? 'selected' : '' }}>{{ $materi->judul }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div id="questions-container">
-                        <div class="question-item mb-4">
-                            <h5>Pertanyaan 1</h5>
-                            <div class="mb-3">
-                                <label class="form-label">Pertanyaan</label>
-                                <input type="text" name="questions[0][question]" class="form-control" required>
+                        @for($i = 0; $i < $questionCount; $i++)
+                            <div class="question-item mb-4">
+                                <h5>Pertanyaan {{ $i + 1 }}</h5>
+                                <div class="mb-3">
+                                    <label class="form-label">Pertanyaan</label>
+                                    <input type="text" name="questions[{{ $i }}][question]" class="form-control" value="{{ old('questions.'.$i.'.question') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Opsi A</label>
+                                    <input type="text" name="questions[{{ $i }}][option_a]" class="form-control" value="{{ old('questions.'.$i.'.option_a') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Opsi B</label>
+                                    <input type="text" name="questions[{{ $i }}][option_b]" class="form-control" value="{{ old('questions.'.$i.'.option_b') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Opsi C</label>
+                                    <input type="text" name="questions[{{ $i }}][option_c]" class="form-control" value="{{ old('questions.'.$i.'.option_c') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Opsi D</label>
+                                    <input type="text" name="questions[{{ $i }}][option_d]" class="form-control" value="{{ old('questions.'.$i.'.option_d') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Jawaban Benar</label>
+                                    <select name="questions[{{ $i }}][correct_answer]" class="form-control" required>
+                                        <option value="A" {{ old('questions.'.$i.'.correct_answer') == 'A' ? 'selected' : '' }}>A</option>
+                                        <option value="B" {{ old('questions.'.$i.'.correct_answer') == 'B' ? 'selected' : '' }}>B</option>
+                                        <option value="C" {{ old('questions.'.$i.'.correct_answer') == 'C' ? 'selected' : '' }}>C</option>
+                                        <option value="D" {{ old('questions.'.$i.'.correct_answer') == 'D' ? 'selected' : '' }}>D</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Opsi A</label>
-                                <input type="text" name="questions[0][option_a]" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Opsi B</label>
-                                <input type="text" name="questions[0][option_b]" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Opsi C</label>
-                                <input type="text" name="questions[0][option_c]" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Opsi D</label>
-                                <input type="text" name="questions[0][option_d]" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Jawaban Benar</label>
-                                <select name="questions[0][correct_answer]" class="form-control" required>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                            </div>
-                        </div>
+                        @endfor
                     </div>
+                    
+                    <input type="hidden" id="question-count" name="question_count" value="{{ $questionCount }}">
                     
                     <button type="button" class="btn btn-secondary" onclick="addQuestion()">Tambah Pertanyaan</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -66,7 +70,7 @@
     </div>
 
     <script>
-        let questionIndex = 1;
+        let questionIndex = {{ $questionCount }};
 
         function addQuestion() {
             const container = document.getElementById('questions-container');
@@ -106,6 +110,7 @@
             `;
             container.appendChild(newQuestion);
             questionIndex++;
+            document.getElementById('question-count').value = questionIndex;
         }
     </script>
 @endsection
